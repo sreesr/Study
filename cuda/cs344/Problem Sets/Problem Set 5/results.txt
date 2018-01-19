@@ -1,0 +1,39 @@
+sreesr@BlrHome:~/Documents/git/Study/cuda/cs344/Problem Sets/Problem Set 5$ ./HW5
+475
+yourHisto2
+numBins 1024 numElems 10240000
+Your code ran in: 65.517952 msecs.
+sreesr@BlrHome:~/Documents/git/Study/cuda/cs344/Problem Sets/Problem Set 5$ make
+nvcc -c student.cu -O3 -arch=sm_20 -Xcompiler -Wall -Xcompiler -Wextra -m64
+nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+student.cu(101): warning: variable "numBlocks" was declared but never referenced
+
+student.cu(101): warning: variable "numThreads" was declared but never referenced
+
+student.cu(101): warning: variable "numBlocks" was declared but never referenced
+
+student.cu(101): warning: variable "numThreads" was declared but never referenced
+
+nvcc -o HW5 main.cu reference_calc.o student.o -O3 -arch=sm_20 -Xcompiler -Wall -Xcompiler -Wextra -m64
+nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+sreesr@BlrHome:~/Documents/git/Study/cuda/cs344/Problem Sets/Problem Set 5$ ./HW5
+508
+yourHisto1
+numBins 1024 numElems 10240000
+Your code ran in: 5072.298828 msecs.
+^C
+sreesr@BlrHome:~/Documents/git/Study/cuda/cs344/Problem Sets/Problem Set 5$ ./HW5
+536
+yourHisto1
+numBins 1024 numElems 10240000
+Your code ran in: 5073.224121 msecs.
+sreesr@BlrHome:~/Documents/git/Study/cuda/cs344/Problem Sets/Problem Set 5$ make
+nvcc -c student.cu -O3 -arch=sm_20 -Xcompiler -Wall -Xcompiler -Wextra -m64
+nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+nvcc -o HW5 main.cu reference_calc.o student.o -O3 -arch=sm_20 -Xcompiler -Wall -Xcompiler -Wextra -m64
+nvcc warning : The 'compute_20', 'sm_20', and 'sm_21' architectures are deprecated, and may be removed in a future release (Use -Wno-deprecated-gpu-targets to suppress warning).
+sreesr@BlrHome:~/Documents/git/Study/cuda/cs344/Problem Sets/Problem Set 5$ ./HW5
+519
+yourHisto3
+numBins 1024 numElems 10240000
+Your code ran in: 14.495264 msecs.

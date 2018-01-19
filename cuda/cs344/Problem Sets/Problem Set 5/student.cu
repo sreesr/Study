@@ -56,6 +56,22 @@ void yourHisto2(const unsigned int* const vals, //INPUT
   //feel free to use more if it will help you
   //write faster code
    int index = blockIdx.x * blockDim.x + threadIdx.x;
+    if (index < numVals)
+        atomicAdd(&histo[vals[index]],1);    
+}
+
+__global__
+void yourHisto3(const unsigned int* const vals, //INPUT
+               unsigned int* const histo,      //OUPUT
+               int numVals)
+{
+  //TODO fill in this kernel to calculate the histogram
+  //as quickly as possible
+
+  //Although we provide only one kernel skeleton,
+  //feel free to use more if it will help you
+  //write faster code
+   int index = blockIdx.x * blockDim.x + threadIdx.x;
    if (index < numVals) {
         __shared__ int localBin[NUMBINS];
         if (threadIdx.x < NUMBINS) {
@@ -80,9 +96,13 @@ void computeHistogram(const unsigned int* const d_vals, //INPUT
 
   //if you want to use/launch more than one kernel,
   //feel free
+  //printf("yourHisto1\n");
   //yourHisto1<<<1,1>>>(d_vals,d_histo, numElems);
   int numBlocks(numElems/1024 + 1), numThreads(1024);
-  yourHisto2<<<numBlocks,numThreads>>>(d_vals,d_histo, numElems);
+  //printf("yourHisto2\n");
+  //yourHisto2<<<numBlocks,numThreads>>>(d_vals,d_histo, numElems);
+  printf("yourHisto3\n");
+  yourHisto3<<<numBlocks,numThreads>>>(d_vals,d_histo, numElems);
   printf("numBins %d numElems %d\n", numBins, numElems);
   cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
 }
