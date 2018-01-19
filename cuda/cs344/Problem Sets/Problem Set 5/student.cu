@@ -24,11 +24,13 @@
 
 */
 
-
+#include <stdio.h>
 #include "utils.h"
 
+#define NUMBINS 1024
+
 __global__
-void yourHisto(const unsigned int* const vals, //INPUT
+void yourHisto1(const unsigned int* const vals, //INPUT
                unsigned int* const histo,      //OUPUT
                int numVals)
 {
@@ -38,6 +40,35 @@ void yourHisto(const unsigned int* const vals, //INPUT
   //Although we provide only one kernel skeleton,
   //feel free to use more if it will help you
   //write faster code
+   for (int i = 0; i < numVals; ++i)
+     histo[vals[i]]++;
+    
+}
+__global__
+void yourHisto2(const unsigned int* const vals, //INPUT
+               unsigned int* const histo,      //OUPUT
+               int numVals)
+{
+  //TODO fill in this kernel to calculate the histogram
+  //as quickly as possible
+
+  //Although we provide only one kernel skeleton,
+  //feel free to use more if it will help you
+  //write faster code
+   int index = blockIdx.x * blockDim.x + threadIdx.x;
+   if (index < numVals) {
+        __shared__ int localBin[NUMBINS];
+        if (threadIdx.x < NUMBINS) {
+            localBin[threadIdx.x] = 0;
+        }
+        __syncthreads();
+
+        atomicAdd(&localBin[vals[index]],1);     
+        __syncthreads();
+        if (threadIdx.x < NUMBINS) {
+            atomicAdd(&histo[threadIdx.x], localBin[threadIdx.x]);
+        }       
+   }
 }
 
 void computeHistogram(const unsigned int* const d_vals, //INPUT
@@ -49,6 +80,9 @@ void computeHistogram(const unsigned int* const d_vals, //INPUT
 
   //if you want to use/launch more than one kernel,
   //feel free
-
+  //yourHisto1<<<1,1>>>(d_vals,d_histo, numElems);
+  int numBlocks(numElems/1024 + 1), numThreads(1024);
+  yourHisto2<<<numBlocks,numThreads>>>(d_vals,d_histo, numElems);
+  printf("numBins %d numElems %d\n", numBins, numElems);
   cudaDeviceSynchronize(); checkCudaErrors(cudaGetLastError());
 }
