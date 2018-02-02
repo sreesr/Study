@@ -1,0 +1,8 @@
+prefix=/home/sreesr/kinetic_ws/install
+
+Name: sreesr_pkg
+Description: Description of sreesr_pkg
+Version: 0.0.0
+Cflags: -I/home/sreesr/kinetic_ws/install/include
+Libs: -L/home/sreesr/kinetic_ws/install/lib 
+Requires: message_runtime roscpp rospy std_msgs
